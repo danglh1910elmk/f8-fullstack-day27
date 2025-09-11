@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>URL Manipulation Tool</title>
+
+        <style>
+            * {
+                padding: 0;
+                margin: 0;
+                box-sizing: border-box;
+            }
+
+            form {
+                width: 300px;
+                margin-top: 20px;
+                margin-left: 50px;
+            }
+
+            select,
+            input {
+                margin-top: 10px;
+                display: block;
+                width: 100%;
+                padding: 8px 16px;
+            }
+
+            button {
+                width: 90px;
+                background: coral;
+                font-weight: 600;
+                border: none;
+                border-radius: 8px;
+                padding: 8px 16px;
+
+                cursor: pointer;
+                transition: 0.3s ease;
+            }
+
+            button:hover {
+                opacity: 0.85;
+            }
+
+            .wrapper {
+                margin-top: 10px;
+                display: flex;
+                justify-content: space-around;
+            }
+        </style>
+    </head>
+    <body>
+        <form action="" id="form">
+            <!-- protocol -->
+            <select name="" id="protocol" required>
+                <option value="" disabled selected>
+                    --Choose a protocol--
+                </option>
+                <option value="http:">http:</option>
+                <option value="https:">https:</option>
+            </select>
+
+            <!-- hostname -->
+            <input
+                type="text"
+                id="hostname"
+                required
+                placeholder="Enter a hostname..."
+            />
+            <!-- port -->
+            <input type="number" id="port" placeholder="Enter a port..." />
+            <!-- pathname -->
+            <input
+                type="text"
+                id="pathname"
+                placeholder="Enter a pathname..."
+            />
+            <!-- query parameter -->
+            <input
+                type="text"
+                id="search"
+                placeholder="Enter query parameters..."
+            />
+            <!-- hash -->
+            <input type="text" id="hash" placeholder="Enter a hash..." />
+
+            <div class="wrapper">
+                <button id="nav-btn">Navigate</button>
+                <button id="replace-btn">Replace</button>
+                <button id="reload-btn">Reload</button>
+            </div>
+        </form>
+
+        <script>
+            const $ = document.querySelector.bind(document);
+
+            const protocol = $("#protocol");
+            const hostname = $("#hostname");
+            const port = $("#port");
+            const pathname = $("#pathname");
+            const search = $("#search");
+            const hash = $("#hash");
+
+            const navBtn = $("#nav-btn");
+            const replaceBtn = $("#replace-btn");
+            const reloadBtn = $("#reload-btn");
+
+            function getURL() {
+                return (
+                    protocol.value +
+                    "//" +
+                    hostname.value +
+                    `${port.value ? ":" + port.value : ""}` +
+                    `${pathname.value ? pathname.value : "/"}` +
+                    search.value +
+                    hash.value
+                );
+            }
+
+            function canSubmit() {
+                // không cho nhấn button khi protocol hoặc hostname trống
+                return protocol.value && hostname.value;
+            }
+
+            navBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+
+                if (canSubmit()) {
+                    const url = getURL();
+                    window.location.assign(url);
+                } else {
+                    alert(
+                        "The protocol and hostname fields cannot be left empty!"
+                    );
+                }
+            });
+
+            replaceBtn.addEventListener("click", (e) => {
+                e.preventDefault();
+
+                if (canSubmit()) {
+                    const url = getURL();
+                    window.location.replace(url);
+                } else {
+                    alert(
+                        "The protocol and hostname fields cannot be left empty!"
+                    );
+                }
+            });
+
+            reloadBtn.addEventListener("click", () => {
+                window.location.reload();
+            });
+        </script>
+    </body>
+</html>

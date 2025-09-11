@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Location Properties Inspector</title>
+
+        <style>
+            table {
+                border-collapse: collapse;
+                margin-top: 50px;
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            caption {
+                font-size: 18px;
+                margin-bottom: 8px;
+            }
+
+            table,
+            th,
+            td {
+                border: 1px solid #000;
+            }
+
+            tbody tr:nth-child(2n + 1) {
+                background: #eee;
+            }
+
+            th {
+                padding: 10px 0;
+            }
+
+            td {
+                padding: 8px 16px;
+            }
+        </style>
+    </head>
+    <body>
+        <table>
+            <caption>
+                Một số thuộc tính của window.location
+            </caption>
+            <thead>
+                <tr>
+                    <th>Property Name</th>
+                    <th>Current Value</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>location.href</td>
+                    <td id="href">value</td>
+                </tr>
+                <tr>
+                    <td>location.protocol</td>
+                    <td id="protocol">value</td>
+                </tr>
+                <tr>
+                    <td>location.hostname</td>
+                    <td id="hostname">value</td>
+                </tr>
+                <tr>
+                    <td>location.port</td>
+                    <td id="port">value</td>
+                </tr>
+                <tr>
+                    <td>location.pathname</td>
+                    <td id="pathname">value</td>
+                </tr>
+                <tr>
+                    <td>location.search</td>
+                    <td id="search">value</td>
+                </tr>
+                <tr>
+                    <td>location.hash</td>
+                    <td id="hash">value</td>
+                </tr>
+                <tr>
+                    <td>location.origin</td>
+                    <td id="origin">value</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <script>
+            const $ = document.querySelector.bind(document);
+
+            $("#href").textContent = window.location.href;
+            $("#protocol").textContent = window.location.protocol;
+            $("#hostname").textContent = window.location.hostname;
+            $("#port").textContent = window.location.port;
+            $("#pathname").textContent = window.location.pathname;
+            $("#search").textContent = window.location.search;
+            $("#hash").textContent = window.location.hash;
+            $("#origin").textContent = window.location.origin;
+        </script>
+    </body>
+</html>

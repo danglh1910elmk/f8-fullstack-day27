@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>Single Page Navigation</title>
+
+        <style>
+            * {
+                padding: 0;
+                margin: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: system-ui, -apple-system, BlinkMacSystemFont,
+                    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+                    "Helvetica Neue", sans-serif;
+            }
+
+            ul {
+                list-style: none;
+            }
+
+            .header {
+                background: #e6f0ff;
+                padding: 12px 0;
+            }
+
+            .page-list {
+                display: flex;
+                column-gap: 20px;
+                justify-content: center;
+            }
+
+            .page-item {
+                cursor: pointer;
+                padding: 8px 4px;
+                font-size: 18px;
+                font-weight: 600;
+                color: #333;
+            }
+
+            .page-item:hover {
+                text-decoration: underline;
+            }
+
+            main {
+                margin: 20px 50px 0;
+            }
+        </style>
+    </head>
+    <body>
+        <header class="header">
+            <div class="container">
+                <ul class="page-list">
+                    <li class="page-item" id="home-page">Home</li>
+                    <li class="page-item" id="about-page">About</li>
+                    <li class="page-item" id="services-page">Services</li>
+                    <li class="page-item" id="contact-page">Contact</li>
+                </ul>
+            </div>
+        </header>
+
+        <main>
+            <div id="content" class="content"></div>
+            <p class="history-length"></p>
+        </main>
+
+        <script>
+            const $ = document.querySelector.bind(document);
+
+            const homePage = $("#home-page");
+            const aboutPage = $("#about-page");
+            const servicesPage = $("#services-page");
+            const contactPage = $("#contact-page");
+            const content = $("#content");
+            const historyLengthElement = $(".history-length");
+
+            const contents = {
+                homePage:
+                    "Chào mừng đến với trang chủ! Đây là nội dung của trang Home.",
+                aboutPage:
+                    "Thông tin về chúng tôi. Chúng tôi là công ty chuyên về công nghệ web.",
+                servicesPage:
+                    "Các dịch vụ của chúng tôi: Thiết kế web, Lập trình ứng dụng, Tư vấn công nghệ.",
+                contactPage:
+                    "Liên hệ với chúng tôi: Email: contact@example.com, Phone: 0123456789",
+            };
+
+            function loadContent(pageName) {
+                content.textContent = contents[pageName];
+                historyLengthElement.textContent = `History Length: ${window.history.length}`;
+            }
+
+            homePage.addEventListener("click", () => {
+                window.history.pushState(
+                    { page: "homePage" },
+                    "",
+                    "/HW/spa-navigation.html/home"
+                );
+                loadContent("homePage");
+            });
+
+            aboutPage.addEventListener("click", () => {
+                window.history.pushState(
+                    { page: "aboutPage" },
+                    "",
+                    "/HW/spa-navigation.html/about"
+                );
+                loadContent("aboutPage");
+            });
+
+            servicesPage.addEventListener("click", () => {
+                window.history.pushState(
+                    { page: "servicesPage" },
+                    "",
+                    "/HW/spa-navigation.html/services"
+                );
+                loadContent("servicesPage");
+            });
+
+            contactPage.addEventListener("click", () => {
+                window.history.pushState(
+                    { page: "contactPage" },
+                    "",
+                    "/HW/spa-navigation.html/contact"
+                );
+                loadContent("contactPage");
+            });
+
+            // lắng nghe khi user click back/forward
+            window.addEventListener("popstate", function (e) {
+                if (e.state && e.state.page) {
+                    loadContent(e.state.page);
+                } else {
+                    content.textContent = "";
+                    historyLengthElement.textContent = `History Length: ${window.history.length}`;
+                }
+            });
+
+            // hiển thị history.length khi vừa vào trang
+            historyLengthElement.textContent = `History Length: ${window.history.length}`;
+        </script>
+    </body>
+</html>

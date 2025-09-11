@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Camera Capture App</title>
+
+        <style>
+            * {
+                padding: 0;
+                margin: 0;
+                box-sizing: border-box;
+            }
+
+            .container {
+                width: calc(100% - 50px);
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .row {
+                display: flex;
+                justify-content: center;
+                column-gap: 30px;
+                margin: 20px 0;
+            }
+
+            button {
+                background: #9fc5ff;
+                border: none;
+                border-radius: 10px;
+                padding: 12px 20px;
+                cursor: pointer;
+            }
+
+            .wrapper {
+                position: relative;
+                width: 100%;
+                aspect-ratio: 16 / 9;
+                background: #ccc;
+            }
+
+            .video,
+            .img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <button class="start-btn">Start Camera</button>
+                <button class="stop-btn">Stop Camera</button>
+            </div>
+            <div class="wrapper">
+                <video src="" class="video"></video>
+            </div>
+
+            <div class="row">
+                <button class="capture-btn">Take Photo</button>
+            </div>
+
+            <div class="wrapper img-wrapper" style="display: none">
+                <img class="img" src="" alt="" />
+            </div>
+
+            <div class="row">
+                <button class="download-btn" style="display: none">
+                    Download Photo
+                </button>
+            </div>
+        </div>
+
+        <script>
+            const $ = document.querySelector.bind(document);
+
+            const startBtn = $(".start-btn");
+            const stopBtn = $(".stop-btn");
+            const captureBtn = $(".capture-btn");
+            const downloadBtn = $(".download-btn");
+
+            const video = $(".video");
+            const img = $(".img");
+            const imgWrapper = $(".img-wrapper");
+            const canvas = document.createElement("canvas");
+
+            let mediaStream;
+
+            startBtn.addEventListener("click", () => {
+                navigator.mediaDevices
+                    .getUserMedia({ video: true })
+                    .then((stream) => {
+                        video.srcObject = stream;
+                        mediaStream = stream;
+                        video.play();
+                    });
+            });
+
+            stopBtn.addEventListener("click", () => {
+                if (mediaStream) {
+                    const tracks = mediaStream.getTracks();
+
+                    tracks.forEach((track) => {
+                        track.stop();
+                    });
+
+                    video.srcObject = null;
+                    mediaStream = null;
+                }
+            });
+
+            captureBtn.addEventListener("click", () => {
+                if (mediaStream) {
+                    const ctx = canvas.getContext("2d");
+                    ctx.drawImage(
+                        video,
+                        0,
+                        0,
+                        video.clientWidth,
+                        video.clientHeight
+                    );
+
+                    const image = canvas.toDataURL("image/jpeg");
+                    img.src = image;
+
+                    imgWrapper.style.display = "block";
+                    downloadBtn.style.display = "block";
+                } else {
+                    alert("Camera is not turned on yet!");
+                }
+            });
+
+            downloadBtn.addEventListener("click", () => {
+                // Tạo element <a> để download
+                const link = document.createElement("a");
+                //  Đặt tên file download
+                link.download = "photo.png";
+                //  Chuyển canvas thành data URL để tạo link download
+                link.href = canvas.toDataURL();
+                //  Tự động click để trigger download
+                link.click();
+            });
+        </script>
+    </body>
+</html>
