@@ -14,6 +14,7 @@
 
             .container {
                 width: calc(100% - 400px);
+                min-width: 400px;
                 margin-left: auto;
                 margin-right: auto;
             }
@@ -88,7 +89,7 @@
 
             let mediaStream;
 
-            startBtn.addEventListener("click", () => {
+            startBtn.addEventListener("click", function () {
                 navigator.mediaDevices
                     .getUserMedia({ video: true })
                     .then((stream) => {
@@ -96,6 +97,9 @@
                         mediaStream = stream;
                         video.play();
                     });
+
+                // disable start button, prevent multiple clicks -> create multiple streams
+                this.disabled = true;
             });
 
             stopBtn.addEventListener("click", () => {
@@ -109,6 +113,9 @@
                     video.srcObject = null;
                     mediaStream = null;
                 }
+
+                // enable start button again
+                startBtn.disabled = false;
             });
 
             captureBtn.addEventListener("click", () => {
@@ -118,8 +125,8 @@
                         video,
                         0,
                         0,
-                        video.clientWidth,
-                        video.clientHeight
+                        video.videoWidth,
+                        video.videoHeight
                     );
 
                     const image = canvas.toDataURL("image/jpeg");
