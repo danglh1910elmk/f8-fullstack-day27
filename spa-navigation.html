@@ -95,38 +95,30 @@
             }
 
             homePage.addEventListener("click", () => {
-                window.history.pushState(
-                    { page: "homePage" },
-                    "",
-                    "/HW/spa-navigation.html/home"
-                );
+                const path = `/${location.pathname.split("/")[1]}/home`;
+
+                window.history.pushState({ page: "homePage" }, "", path);
                 loadContent("homePage");
             });
 
             aboutPage.addEventListener("click", () => {
-                window.history.pushState(
-                    { page: "aboutPage" },
-                    "",
-                    "/HW/spa-navigation.html/about"
-                );
+                const path = `/${location.pathname.split("/")[1]}/about`;
+
+                window.history.pushState({ page: "aboutPage" }, "", path);
                 loadContent("aboutPage");
             });
 
             servicesPage.addEventListener("click", () => {
-                window.history.pushState(
-                    { page: "servicesPage" },
-                    "",
-                    "/HW/spa-navigation.html/services"
-                );
+                const path = `/${location.pathname.split("/")[1]}/services`;
+
+                window.history.pushState({ page: "servicesPage" }, "", path);
                 loadContent("servicesPage");
             });
 
             contactPage.addEventListener("click", () => {
-                window.history.pushState(
-                    { page: "contactPage" },
-                    "",
-                    "/HW/spa-navigation.html/contact"
-                );
+                const path = `/${location.pathname.split("/")[1]}/contact`;
+
+                window.history.pushState({ page: "contactPage" }, "", path);
                 loadContent("contactPage");
             });
 
@@ -134,6 +126,7 @@
             window.addEventListener("popstate", function (e) {
                 if (e.state && e.state.page) {
                     loadContent(e.state.page);
+                    // nếu không dùng e.state.page thì có thể check pathname
                 } else {
                     content.textContent = "";
                     historyLengthElement.textContent = `History Length: ${window.history.length}`;
