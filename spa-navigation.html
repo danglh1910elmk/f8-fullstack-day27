@@ -89,34 +89,36 @@
                     "Liên hệ với chúng tôi: Email: contact@example.com, Phone: 0123456789",
             };
 
+            const pathName = location.pathname;
+
             function loadContent(pageName) {
                 content.textContent = contents[pageName];
                 historyLengthElement.textContent = `History Length: ${window.history.length}`;
             }
 
             homePage.addEventListener("click", () => {
-                const path = `/${location.pathname.split("/")[1]}/home`;
+                const path = `${pathName}/home`;
 
                 window.history.pushState({ page: "homePage" }, "", path);
                 loadContent("homePage");
             });
 
             aboutPage.addEventListener("click", () => {
-                const path = `/${location.pathname.split("/")[1]}/about`;
+                const path = `${pathName}/about`;
 
                 window.history.pushState({ page: "aboutPage" }, "", path);
                 loadContent("aboutPage");
             });
 
             servicesPage.addEventListener("click", () => {
-                const path = `/${location.pathname.split("/")[1]}/services`;
+                const path = `${pathName}/services`;
 
                 window.history.pushState({ page: "servicesPage" }, "", path);
                 loadContent("servicesPage");
             });
 
             contactPage.addEventListener("click", () => {
-                const path = `/${location.pathname.split("/")[1]}/contact`;
+                const path = `${pathName}/contact`;
 
                 window.history.pushState({ page: "contactPage" }, "", path);
                 loadContent("contactPage");
