@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+        <title>Single Page Navigation</title>
+
+        <style>
+            * {
+                padding: 0;
+                margin: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family: system-ui, -apple-system, BlinkMacSystemFont,
+                    "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans",
+                    "Helvetica Neue", sans-serif;
+            }
+
+            main {
+                margin: 20px 50px 0;
+            }
+
+            ul {
+                list-style: none;
+            }
+
+            .header {
+                background: #e6f0ff;
+                padding: 12px 0;
+            }
+
+            .page-list {
+                display: flex;
+                column-gap: 20px;
+                justify-content: center;
+            }
+
+            .page-item:hover {
+                text-decoration: underline;
+            }
+
+            a {
+                text-decoration: none;
+                padding: 8px 4px;
+                font-size: 18px;
+                font-weight: 600;
+                color: #333;
+            }
+        </style>
+    </head>
+    <body>
+        <header class="header">
+            <div class="container">
+                <ul class="page-list">
+                    <li class="page-item">
+                        <a href="#home" id="home-page">Home</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="#about" id="about-page">About</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="#services" id="services-page">Services</a>
+                    </li>
+                    <li class="page-item">
+                        <a href="#contact" id="contact-page">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </header>
+
+        <main>
+            <div id="content" class="content"></div>
+            <p class="history-length"></p>
+        </main>
+
+        <script>
+            const $ = document.querySelector.bind(document);
+
+            const homePage = $("#home-page");
+            const aboutPage = $("#about-page");
+            const servicesPage = $("#services-page");
+            const contactPage = $("#contact-page");
+            const content = $("#content");
+            const historyLengthElement = $(".history-length");
+
+            const contents = {
+                home: "Chào mừng đến với trang chủ! Đây là nội dung của trang Home.",
+                about: "Thông tin về chúng tôi. Chúng tôi là công ty chuyên về công nghệ web.",
+                services:
+                    "Các dịch vụ của chúng tôi: Thiết kế web, Lập trình ứng dụng, Tư vấn công nghệ.",
+                contact:
+                    "Liên hệ với chúng tôi: Email: contact@example.com, Phone: 0123456789",
+            };
+
+            function loadContent(pageName) {
+                content.textContent = contents[pageName] ?? "";
+                historyLengthElement.textContent = `History Length: ${window.history.length}`;
+            }
+
+            function handleReload() {
+                const hash = location.hash.slice(1);
+
+                loadContent(hash);
+            }
+
+            // lắng nghe khi hash thay đổi
+            window.addEventListener("hashchange", handleReload);
+
+            // handle reload and initialize
+            handleReload();
+        </script>
+    </body>
+</html>
